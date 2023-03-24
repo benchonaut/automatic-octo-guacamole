@@ -12,7 +12,7 @@ on:
     branches:
       - 'dev'
       - 'testing'
-  build:
+  buildthingy:
     runs-on: ubuntu-latest
     container: quay.io/thefoundation/library:docker-with-buildx
     permissions:
