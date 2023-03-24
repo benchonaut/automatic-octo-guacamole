@@ -37,7 +37,6 @@ jobs:
         volumes:
           - /tmp/buildcache_persist/apt-cacher-ng:/var/cache/apt-cacher-ng
     if: github.repository_owner == 'thefoundation-builder'
-    needs: [ build-base-bionic ]
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
