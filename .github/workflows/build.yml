@@ -52,5 +52,8 @@ jobs:
       - name: build images
         run: |
              ifconfig
+             curl registry:5000         || true
+             curl ultra-apt-cacher:3142 || true
+
              curl 127.0.0.1:5000 || true
              curl 127.0.0.1:3142 || true 
