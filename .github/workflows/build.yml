@@ -12,6 +12,11 @@ on:
     branches:
       - 'dev'
       - 'testing'
+      
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
   buildthingy:
     runs-on: ubuntu-latest
     container: quay.io/thefoundation/library:docker-with-buildx
