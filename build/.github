@@ -1,0 +1,37 @@
+
+  buil:
+    runs-on: ubuntu-latest
+    container: quay.io/thefoundation/library:docker-with-buildx
+    permissions:
+      packages: write
+      contents: read
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+        volumes:
+          - /tmp/buildcache_persist/registry:/var/lib/registry 
+      ultra-apt-cacher:
+        image: registry.gitlab.com/the-foundation/ultra-apt-cacher-ng
+        ports:
+          - 3142:3142
+        volumes:
+          - /tmp/buildcache_persist/apt-cacher-ng:/var/cache/apt-cacher-ng
+    if: github.repository_owner == 'thefoundation-builder'
+    needs: [ build-base-bionic ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: current images
+        run: /bin/bash -c 'docker rmi $(docker image  ls --filter=reference="node:*" |grep -v  " ") $(docker image  ls|grep node |cut -f1 |cut -d" " -f1) ;docker image ls '
+      - name: build images
+        run: |
+             ifconfig
+             curl 127.0.0.1:5000 
